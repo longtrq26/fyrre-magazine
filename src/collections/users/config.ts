@@ -10,8 +10,8 @@ export const Users: CollectionConfig = {
     defaultColumns: ['name', 'email', 'role'],
   },
   access: {
-    read: () => true, // Still public for author profile visibility, but sensitive fields masked by Payload
-    create: isAdmin,
+    read: isAdminOrSelf,
+    create: () => true,
     update: isAdminOrSelf,
     delete: isAdmin,
     admin: ({ req: { user } }) => {
@@ -31,6 +31,7 @@ export const Users: CollectionConfig = {
       defaultValue: ROLES.USER,
       options: ROLE_OPTIONS,
       access: {
+        create: isAdminFieldLevel,
         update: isAdminFieldLevel, // Only admins can change roles
       },
     },

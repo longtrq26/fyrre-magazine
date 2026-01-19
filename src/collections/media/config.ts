@@ -1,5 +1,5 @@
 import type { CollectionConfig } from 'payload'
-import { isAdminOrWriter } from '../../access'
+import { isAdminOrWriter, isAdminOrOwner } from '../../access'
 
 export const Media: CollectionConfig = {
   slug: 'media',
@@ -30,14 +30,25 @@ export const Media: CollectionConfig = {
   access: {
     read: () => true,
     create: isAdminOrWriter,
-    update: isAdminOrWriter,
-    delete: isAdminOrWriter,
+    update: isAdminOrOwner('owner'),
+    delete: isAdminOrOwner('owner'),
   },
   fields: [
     {
       name: 'alt',
       type: 'text',
       required: true,
+    },
+    {
+      name: 'owner',
+      type: 'relationship',
+      relationTo: 'users',
+      required: true,
+      defaultValue: ({ user }) => user?.id,
+      admin: {
+        position: 'sidebar',
+        readOnly: true,
+      },
     },
   ],
 }

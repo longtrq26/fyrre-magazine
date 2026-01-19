@@ -1,5 +1,6 @@
-import { CollectionConfig } from 'payload'
-import { isAdmin, isAdminOrWriter } from '../../access'
+import { CollectionConfig, Where } from 'payload'
+import { ROLES } from '../../constants/roles'
+import { isAdminOrWriter, isAdminOrOwner } from '../../access'
 import { seoFields } from '../../fields/seo'
 import { formatSlug } from '../../utilities/formatSlug'
 
@@ -16,12 +17,30 @@ export const Posts: CollectionConfig = {
   },
   access: {
     read: ({ req: { user } }) => {
-      if (user) return true
-      return { status: { equals: 'published' } }
+      if (user?.role === ROLES.ADMIN) return true
+
+      const publishedFilter: Where = {
+        status: {
+          equals: 'published',
+        },
+      }
+
+      if (!user) return publishedFilter
+
+      return {
+        or: [
+          publishedFilter,
+          {
+            author: {
+              equals: user.id,
+            },
+          },
+        ],
+      }
     },
     create: isAdminOrWriter,
-    update: isAdminOrWriter,
-    delete: isAdmin,
+    update: isAdminOrOwner('author'),
+    delete: isAdminOrOwner('author'),
   },
   fields: [
     {
