@@ -69,6 +69,10 @@ export interface Config {
   collections: {
     users: User
     media: Media
+    posts: Post
+    categories: Category
+    tags: Tag
+    subscribers: Subscriber
     'payload-kv': PayloadKv
     'payload-locked-documents': PayloadLockedDocument
     'payload-preferences': PayloadPreference
@@ -78,6 +82,10 @@ export interface Config {
   collectionsSelect: {
     users: UsersSelect<false> | UsersSelect<true>
     media: MediaSelect<false> | MediaSelect<true>
+    posts: PostsSelect<false> | PostsSelect<true>
+    categories: CategoriesSelect<false> | CategoriesSelect<true>
+    tags: TagsSelect<false> | TagsSelect<true>
+    subscribers: SubscribersSelect<false> | SubscribersSelect<true>
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>
     'payload-locked-documents':
       | PayloadLockedDocumentsSelect<false>
@@ -86,7 +94,7 @@ export interface Config {
     'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>
   }
   db: {
-    defaultIDType: string
+    defaultIDType: number
   }
   fallbackLocale: null
   globals: {}
@@ -123,7 +131,20 @@ export interface UserAuthOperations {
  * via the `definition` "users".
  */
 export interface User {
-  id: string
+  id: number
+  name: string
+  role: 'admin' | 'writer' | 'user'
+  bio?: string | null
+  avatar?: (number | null) | Media
+  socialLinks?: {
+    facebook?: string | null
+    instagram?: string | null
+    twitter?: string | null
+  }
+  /**
+   * URL-friendly identifier for author profile page
+   */
+  slug: string
   updatedAt: string
   createdAt: string
   email: string
@@ -147,7 +168,7 @@ export interface User {
  * via the `definition` "media".
  */
 export interface Media {
-  id: string
+  id: number
   alt: string
   updatedAt: string
   createdAt: string
@@ -160,13 +181,130 @@ export interface Media {
   height?: number | null
   focalX?: number | null
   focalY?: number | null
+  sizes?: {
+    thumbnail?: {
+      url?: string | null
+      width?: number | null
+      height?: number | null
+      mimeType?: string | null
+      filesize?: number | null
+      filename?: string | null
+    }
+    card?: {
+      url?: string | null
+      width?: number | null
+      height?: number | null
+      mimeType?: string | null
+      filesize?: number | null
+      filename?: string | null
+    }
+    featured?: {
+      url?: string | null
+      width?: number | null
+      height?: number | null
+      mimeType?: string | null
+      filesize?: number | null
+      filename?: string | null
+    }
+  }
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "posts".
+ */
+export interface Post {
+  id: number
+  title: string
+  slug: string
+  type: 'article' | 'podcast'
+  podcastUrl?: string | null
+  content: {
+    root: {
+      type: string
+      children: {
+        type: any
+        version: number
+        [k: string]: unknown
+      }[]
+      direction: ('ltr' | 'rtl') | null
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | ''
+      indent: number
+      version: number
+    }
+    [k: string]: unknown
+  }
+  excerpt: string
+  featuredImage: number | Media
+  author: number | User
+  categories?: (number | Category)[] | null
+  tags?: (number | Tag)[] | null
+  status: 'draft' | 'review' | 'published'
+  publishedAt?: string | null
+  seo?: {
+    /**
+     * Recommended: 50-60 characters
+     */
+    metaTitle?: string | null
+    /**
+     * Recommended: 150-160 characters
+     */
+    metaDescription?: string | null
+    keywords?: string | null
+    /**
+     * Open Graph image for social sharing (1200x630px recommended)
+     */
+    ogImage?: (number | null) | Media
+  }
+  updatedAt: string
+  createdAt: string
+  _status?: ('draft' | 'published') | null
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "categories".
+ */
+export interface Category {
+  id: number
+  name: string
+  slug: string
+  description?: string | null
+  /**
+   * For hierarchical categories
+   */
+  parent?: (number | null) | Category
+  updatedAt: string
+  createdAt: string
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "tags".
+ */
+export interface Tag {
+  id: number
+  name: string
+  slug: string
+  updatedAt: string
+  createdAt: string
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "subscribers".
+ */
+export interface Subscriber {
+  id: number
+  email: string
+  language: 'en' | 'vi'
+  status?: ('active' | 'unsubscribed') | null
+  subscribedAt?: string | null
+  updatedAt: string
+  createdAt: string
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv".
  */
 export interface PayloadKv {
-  id: string
+  id: number
   key: string
   data:
     | {
@@ -183,20 +321,36 @@ export interface PayloadKv {
  * via the `definition` "payload-locked-documents".
  */
 export interface PayloadLockedDocument {
-  id: string
+  id: number
   document?:
     | ({
         relationTo: 'users'
-        value: string | User
+        value: number | User
       } | null)
     | ({
         relationTo: 'media'
-        value: string | Media
+        value: number | Media
+      } | null)
+    | ({
+        relationTo: 'posts'
+        value: number | Post
+      } | null)
+    | ({
+        relationTo: 'categories'
+        value: number | Category
+      } | null)
+    | ({
+        relationTo: 'tags'
+        value: number | Tag
+      } | null)
+    | ({
+        relationTo: 'subscribers'
+        value: number | Subscriber
       } | null)
   globalSlug?: string | null
   user: {
     relationTo: 'users'
-    value: string | User
+    value: number | User
   }
   updatedAt: string
   createdAt: string
@@ -206,10 +360,10 @@ export interface PayloadLockedDocument {
  * via the `definition` "payload-preferences".
  */
 export interface PayloadPreference {
-  id: string
+  id: number
   user: {
     relationTo: 'users'
-    value: string | User
+    value: number | User
   }
   key?: string | null
   value?:
@@ -229,7 +383,7 @@ export interface PayloadPreference {
  * via the `definition` "payload-migrations".
  */
 export interface PayloadMigration {
-  id: string
+  id: number
   name?: string | null
   batch?: number | null
   updatedAt: string
@@ -240,6 +394,18 @@ export interface PayloadMigration {
  * via the `definition` "users_select".
  */
 export interface UsersSelect<T extends boolean = true> {
+  name?: T
+  role?: T
+  bio?: T
+  avatar?: T
+  socialLinks?:
+    | T
+    | {
+        facebook?: T
+        instagram?: T
+        twitter?: T
+      }
+  slug?: T
   updatedAt?: T
   createdAt?: T
   email?: T
@@ -274,6 +440,103 @@ export interface MediaSelect<T extends boolean = true> {
   height?: T
   focalX?: T
   focalY?: T
+  sizes?:
+    | T
+    | {
+        thumbnail?:
+          | T
+          | {
+              url?: T
+              width?: T
+              height?: T
+              mimeType?: T
+              filesize?: T
+              filename?: T
+            }
+        card?:
+          | T
+          | {
+              url?: T
+              width?: T
+              height?: T
+              mimeType?: T
+              filesize?: T
+              filename?: T
+            }
+        featured?:
+          | T
+          | {
+              url?: T
+              width?: T
+              height?: T
+              mimeType?: T
+              filesize?: T
+              filename?: T
+            }
+      }
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "posts_select".
+ */
+export interface PostsSelect<T extends boolean = true> {
+  title?: T
+  slug?: T
+  type?: T
+  podcastUrl?: T
+  content?: T
+  excerpt?: T
+  featuredImage?: T
+  author?: T
+  categories?: T
+  tags?: T
+  status?: T
+  publishedAt?: T
+  seo?:
+    | T
+    | {
+        metaTitle?: T
+        metaDescription?: T
+        keywords?: T
+        ogImage?: T
+      }
+  updatedAt?: T
+  createdAt?: T
+  _status?: T
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "categories_select".
+ */
+export interface CategoriesSelect<T extends boolean = true> {
+  name?: T
+  slug?: T
+  description?: T
+  parent?: T
+  updatedAt?: T
+  createdAt?: T
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "tags_select".
+ */
+export interface TagsSelect<T extends boolean = true> {
+  name?: T
+  slug?: T
+  updatedAt?: T
+  createdAt?: T
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "subscribers_select".
+ */
+export interface SubscribersSelect<T extends boolean = true> {
+  email?: T
+  language?: T
+  status?: T
+  subscribedAt?: T
+  updatedAt?: T
+  createdAt?: T
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
