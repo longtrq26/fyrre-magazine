@@ -1,5 +1,5 @@
 import { CollectionConfig } from 'payload'
-import { isAdmin, isAdminFieldLevel, isAdminOrWriter } from '../../access'
+import { isAdmin, isAdminOrWriter } from '../../access'
 import { seoFields } from '../../fields/seo'
 import { formatSlug } from '../../utilities/formatSlug'
 
@@ -84,9 +84,6 @@ export const Posts: CollectionConfig = {
       relationTo: 'users',
       required: true,
       defaultValue: ({ user }) => user?.id,
-      access: {
-        update: isAdminFieldLevel, // Only admin can change the author
-      },
     },
     {
       name: 'categories',

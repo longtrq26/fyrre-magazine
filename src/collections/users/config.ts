@@ -1,7 +1,6 @@
 import type { CollectionConfig } from 'payload'
 import { isAdmin, isAdminFieldLevel, isAdminOrSelf } from '../../access'
 import { ROLE_OPTIONS, ROLES } from '../../constants/roles'
-import { formatSlug } from '../../utilities/formatSlug'
 
 export const Users: CollectionConfig = {
   slug: 'users',
@@ -62,19 +61,6 @@ export const Users: CollectionConfig = {
           type: 'text',
         },
       ],
-    },
-    {
-      name: 'slug',
-      type: 'text',
-      required: true,
-      unique: true,
-      admin: {
-        position: 'sidebar',
-        description: 'URL-friendly identifier for author profile page',
-      },
-      hooks: {
-        beforeValidate: [formatSlug('name')],
-      },
     },
   ],
 }
