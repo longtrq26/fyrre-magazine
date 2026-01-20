@@ -1,5 +1,6 @@
+import { generateBlurHashUrl, isEligibleForBlurHashUrl } from '@/utilities/generateBlurHashUrl'
 import type { CollectionConfig } from 'payload'
-import { isAdminOrWriter, isAdminOrOwner } from '../../access'
+import { isAdminOrOwner, isAdminOrWriter } from '../../access'
 
 export const Media: CollectionConfig = {
   slug: 'media',
@@ -40,6 +41,12 @@ export const Media: CollectionConfig = {
       required: true,
     },
     {
+      name: 'blurHashUrl',
+      type: 'text',
+      required: true,
+      admin: { hidden: true },
+    },
+    {
       name: 'owner',
       type: 'relationship',
       relationTo: 'users',
@@ -51,4 +58,40 @@ export const Media: CollectionConfig = {
       },
     },
   ],
+  hooks: {
+    beforeChange: [
+      async ({ data, operation, req }) => {
+        // 1. kiểm tra data có tồn tại và operation là create (chỉ chạy khi khởi tạo)
+        if (!data || operation !== 'create') return data
+
+        // 2. lấy file từ request
+        const file = req.file
+        // kiểm tra file và loại file hợp lệ
+        if (!file || !isEligibleForBlurHashUrl(file.mimetype)) {
+          return data
+        }
+
+        try {
+          // 3. tạo blurhash url từ buffer của file
+          const base64 = await generateBlurHashUrl(file.data)
+          if (base64) {
+            // gán giá trị blurhash url vào field blurHashUrl
+            data.blurHashUrl = base64
+            req.payload.logger.info({
+              msg: 'Generated blurhash success',
+              file: file.name,
+            })
+          }
+        } catch (error) {
+          req.payload.logger.error({
+            msg: 'Failed to generate blurhash',
+            error,
+            file: file.name,
+          })
+        }
+
+        return data
+      },
+    ],
+  },
 }

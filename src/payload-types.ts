@@ -139,10 +139,6 @@ export interface User {
     instagram?: string | null;
     twitter?: string | null;
   };
-  /**
-   * URL-friendly identifier for author profile page
-   */
-  slug: string;
   updatedAt: string;
   createdAt: string;
   email: string;
@@ -168,6 +164,8 @@ export interface User {
 export interface Media {
   id: number;
   alt: string;
+  blurHashUrl: string;
+  owner: number | User;
   updatedAt: string;
   createdAt: string;
   url?: string | null;
@@ -403,7 +401,6 @@ export interface UsersSelect<T extends boolean = true> {
         instagram?: T;
         twitter?: T;
       };
-  slug?: T;
   updatedAt?: T;
   createdAt?: T;
   email?: T;
@@ -427,6 +424,8 @@ export interface UsersSelect<T extends boolean = true> {
  */
 export interface MediaSelect<T extends boolean = true> {
   alt?: T;
+  blurHashUrl?: T;
+  owner?: T;
   updatedAt?: T;
   createdAt?: T;
   url?: T;
