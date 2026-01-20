@@ -1,10 +1,6 @@
 'use client'
 
 import ICArrow from '@/components/icons/ICArrow'
-import ICInstagram from '@/components/icons/ICInstagram'
-import ICRss from '@/components/icons/ICRss'
-import ICTwitter from '@/components/icons/ICTwitter'
-import ICYoutube from '@/components/icons/ICYoutube'
 import {
   Drawer,
   DrawerContent,
@@ -12,58 +8,57 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from '@/components/ui/drawer'
+import { NAV_LINKS, SOCIAL_LINKS } from '@/constants/navigation'
 import { useGSAP } from '@gsap/react'
 import gsap from 'gsap'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRef, useState } from 'react'
 
-const NAV_ITEMS = [
-  { label: 'Magazine', href: '/magazine' },
-  { label: 'Authors', href: '/authors' },
-  { label: 'Podcast', href: '/podcast' },
-]
-
-const SOCIAL_ITEMS = [
-  { id: 'ig', label: 'Instagram', icon: ICInstagram, href: 'https://instagram.com/...' },
-  { id: 'tw', label: 'Twitter', icon: ICTwitter, href: 'https://twitter.com/...' },
-  { id: 'yt', label: 'Youtube', icon: ICYoutube, href: 'https://youtube.com/...' },
-  { id: 'rss', label: 'RSS', icon: ICRss, href: '/rss' },
-]
-
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false)
   const line1Ref = useRef(null)
   const line2Ref = useRef(null)
 
-  useGSAP(() => {
-    if (isOpen) {
-      // Chuyển thành dấu X
-      gsap.to(line1Ref.current, {
-        rotationZ: 45, // Sử dụng rotationZ
-        y: 5,
-        duration: 0.3,
-        ease: 'power2.inOut',
-        force3D: true, // Ép render bằng GPU
-      })
-      gsap.to(line2Ref.current, {
-        rotationZ: -45,
-        y: -5,
-        duration: 0.3,
-        ease: 'power2.inOut',
-        force3D: true,
-      })
-    } else {
-      // Trở lại 2 gạch
-      gsap.to([line1Ref.current, line2Ref.current], {
-        rotationZ: 0,
-        y: 0,
-        duration: 0.3,
-        ease: 'power2.inOut',
-        force3D: true,
-      })
-    }
-  }, [isOpen])
+  useGSAP(
+    () => {
+      if (!line1Ref.current || !line2Ref.current) return
+
+      // kill animation cũ để tránh race-condition khi click nhanh
+      gsap.killTweensOf([line1Ref.current, line2Ref.current])
+
+      if (isOpen) {
+        // open state: transform thành dấu "X"
+        gsap.to(line1Ref.current, {
+          rotationZ: 45,
+          y: 5,
+          duration: 0.3,
+          ease: 'power2.inOut',
+          force3D: true, // gpu acceleration, mượt hơn trên mobile
+        })
+
+        gsap.to(line2Ref.current, {
+          rotationZ: -45,
+          y: -5,
+          duration: 0.3,
+          ease: 'power2.inOut',
+          force3D: true,
+        })
+      } else {
+        // closed state: trở lại hamburger
+        gsap.to([line1Ref.current, line2Ref.current], {
+          rotationZ: 0,
+          y: 0,
+          duration: 0.3,
+          ease: 'power2.inOut',
+          force3D: true,
+        })
+      }
+    },
+    {
+      dependencies: [isOpen],
+    },
+  )
 
   return (
     <header className="border-border-default flex w-full items-center justify-between border-b pb-[1rem]">
@@ -79,7 +74,7 @@ const Header = () => {
       <div className="hidden items-center gap-[1.5rem] md:flex">
         {/* navigation */}
         <nav className="flex items-center gap-[1.5rem]">
-          {NAV_ITEMS.map((item) => (
+          {NAV_LINKS.map((item) => (
             <Link key={item.href} href={item.href} className="t-medium">
               {item.label}
             </Link>
@@ -91,8 +86,7 @@ const Header = () => {
 
         {/* socials */}
         <div className="flex items-center gap-[0.75rem]">
-          {SOCIAL_ITEMS.map((item) => {
-            const Icon = item.icon
+          {SOCIAL_LINKS.map((item) => {
             return (
               <Link
                 key={item.id}
@@ -100,7 +94,7 @@ const Header = () => {
                 aria-label={item.label}
                 className="flex size-[1.25rem] items-center justify-center"
               >
-                <Icon className="fill-icon-default size-[1.042rem]" />
+                <item.Icon className="fill-icon-default size-[1.042rem]" />
               </Link>
             )
           })}
@@ -131,7 +125,7 @@ const Header = () => {
             </DrawerHeader>
 
             <nav className="mt-[2rem] flex flex-col gap-[1.5rem]">
-              {NAV_ITEMS.map((item) => (
+              {NAV_LINKS.map((item) => (
                 <Link
                   key={item.href}
                   href={item.href}
