@@ -12,13 +12,13 @@ interface ButtonProps
 const buttonVariants = cva('font-general-sans flex items-center justify-center uppercase', {
   variants: {
     variant: {
-      primary:
+      default:
         'bg-bg-primary text-t-inverse h-[3.125rem] p-[0.25rem_1.5rem] text-[0.875rem] font-medium',
       text: 'text-t-default h-[1.5rem] gap-[0.5rem] p-0 text-[1rem] font-semibold',
     },
   },
   defaultVariants: {
-    variant: 'primary',
+    variant: 'default',
   },
 })
 

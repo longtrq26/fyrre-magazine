@@ -10,5 +10,5 @@
     "prettier-plugin-tailwindcss"
   ],
   "tailwindFunctions": ["cn", "cva"],
-  "tailwindAttributes": ["variants"]
+  "tailwindAttributes": ["className", "class", "variants", "base", "compoundVariants"]
 }
