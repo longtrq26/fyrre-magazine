@@ -168,7 +168,7 @@
     @apply font-general-sans text-[1rem] leading-[180%] font-semibold;
   }
   .t-medium {
-    @apply font-general-sans text-[1.25rem];
+    @apply font-general-sans text-[1.25rem] leading-[180%];
   }
   .t-medium-500 {
     @apply font-general-sans text-[1.25rem] leading-[180%] font-medium;
