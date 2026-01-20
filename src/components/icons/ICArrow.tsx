@@ -1,0 +1,12 @@
+const ICArrow = ({ className }: { className?: string }) => {
+  return (
+    <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" className={className}>
+      <path
+        d="M12.172 6.778L6.808 1.414L8.222 0L16 7.778L8.222 15.556L6.808 14.142L12.172 8.778H0V6.778H12.172Z"
+        fill="currentColor"
+      />
+    </svg>
+  )
+}
+
+export default ICArrow

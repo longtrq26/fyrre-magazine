@@ -7,7 +7,9 @@ const RootPage = () => {
   return (
     <div>
       RootPage
-      <Button onClick={() => toast('Event has been created')}>Default</Button>
+      <Button variant={'text'} direction={'left'} onClick={() => toast('Event has been created')}>
+        Default
+      </Button>
     </div>
   )
 }
