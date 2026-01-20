@@ -6,11 +6,12 @@ interface LabelProps
   extends LabelHTMLAttributes<HTMLLabelElement>, VariantProps<typeof labelVariants> {}
 
 const labelVariants = cva(
-  't-xsmall flex size-fit items-center justify-center rounded-[6.25rem] border p-[0.5rem_0.75rem] uppercase',
+  't-xsmall flex size-fit items-center justify-center rounded-[6.25rem] border uppercase transition-colors',
   {
     variants: {
       variant: {
-        default: 'border-border-default bg-transparent',
+        default:
+          'border-border-default text-t-default bg-transparent p-[0.4rem_0.6rem] md:p-[0.5rem_0.75rem]',
       },
     },
     defaultVariants: {

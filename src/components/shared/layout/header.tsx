@@ -20,56 +20,59 @@ const Header = () => {
   const line1Ref = useRef(null)
   const line2Ref = useRef(null)
 
-  useGSAP(() => {
-    if (!line1Ref.current || !line2Ref.current) return
-    gsap.killTweensOf([line1Ref.current, line2Ref.current])
+  useGSAP(
+    () => {
+      if (!line1Ref.current || !line2Ref.current) return
+      gsap.killTweensOf([line1Ref.current, line2Ref.current])
 
-    if (isOpen) {
-      gsap.to(line1Ref.current, {
-        rotationZ: 45,
-        y: 5,
-        duration: 0.3,
-        ease: 'power2.inOut',
-        force3D: true,
-      })
-      gsap.to(line2Ref.current, {
-        rotationZ: -45,
-        y: -5,
-        duration: 0.3,
-        ease: 'power2.inOut',
-        force3D: true,
-      })
-    } else {
-      gsap.to([line1Ref.current, line2Ref.current], {
-        rotationZ: 0,
-        y: 0,
-        duration: 0.3,
-        ease: 'power2.inOut',
-        force3D: true,
-      })
-    }
-  }, [isOpen])
+      if (isOpen) {
+        gsap.to(line1Ref.current, {
+          rotationZ: 45,
+          y: 5,
+          duration: 0.3,
+          ease: 'power2.inOut',
+          force3D: true,
+        })
+        gsap.to(line2Ref.current, {
+          rotationZ: -45,
+          y: -5,
+          duration: 0.3,
+          ease: 'power2.inOut',
+          force3D: true,
+        })
+      } else {
+        gsap.to([line1Ref.current, line2Ref.current], {
+          rotationZ: 0,
+          y: 0,
+          duration: 0.3,
+          ease: 'power2.inOut',
+          force3D: true,
+        })
+      }
+    },
+    { dependencies: [isOpen] },
+  )
 
   return (
-    <header className="bg-bg-default fixed top-0 left-0 z-50 w-full px-[1.5rem] pt-[1.25rem] lg:static lg:px-[2.5rem] lg:pt-[3rem]">
+    <header className="bg-bg-default fixed top-0 left-0 z-50 w-full px-[1.5rem] pt-[1.25rem] md:px-[2rem] md:pt-[2rem] lg:static lg:px-[2.5rem] lg:pt-[3rem]">
       <div className="border-border-default flex w-full items-center justify-between border-b pb-[1rem]">
         {/* logo */}
         <Link
           href={'/'}
-          className="relative block h-[0.875rem] w-[10rem] transition-opacity hover:opacity-80 lg:h-[1.122rem] lg:w-[13.073rem]"
+          className="relative block h-[0.875rem] w-[10rem] transition-opacity hover:opacity-80 md:h-[1rem] md:w-[11.5rem] lg:h-[1.122rem] lg:w-[13.073rem]"
         >
           <Image src={'/logo.svg'} alt="Fyrre Magazine" fill priority className="object-contain" />
         </Link>
 
         {/* desktop */}
-        <div className="hidden items-center gap-[1.5rem] lg:flex">
+        <div className="hidden items-center gap-[1rem] md:flex lg:gap-[1.5rem]">
           {/* navigation */}
-          <nav className="flex items-center gap-[1.5rem]">
+          <nav className="flex items-center gap-[1rem] lg:gap-[1.5rem]">
             {HEADER_LINKS.map((item) => (
               <Link
                 key={item.href}
                 href={item.href}
-                className="t-medium transition-opacity hover:opacity-60"
+                className="t-medium whitespace-nowrap transition-opacity hover:opacity-60"
               >
                 {item.label}
               </Link>
@@ -77,10 +80,10 @@ const Header = () => {
           </nav>
 
           {/* separator */}
-          <div className="bg-border-default h-px w-[0.938rem]" />
+          <div className="bg-border-default h-px w-[0.7rem] lg:w-[0.938rem]" />
 
           {/* socials */}
-          <div className="flex items-center gap-[0.75rem]">
+          <div className="flex items-center gap-[0.5rem] lg:gap-[0.75rem]">
             {SOCIAL_LINKS.map((item) => (
               <Link
                 key={item.id}
@@ -94,7 +97,7 @@ const Header = () => {
         </div>
 
         {/* mobile */}
-        <div className="lg:hidden">
+        <div className="md:hidden">
           <Drawer direction="bottom" open={isOpen} onOpenChange={setIsOpen}>
             <DrawerTrigger asChild>
               <button
@@ -103,11 +106,11 @@ const Header = () => {
               >
                 <span
                   ref={line1Ref}
-                  className="bg-t-default block h-[0.094rem] w-full origin-center will-change-transform" // Dùng màu text chính
+                  className="bg-t-default block h-[0.094rem] w-full origin-center will-change-transform"
                 />
                 <span
                   ref={line2Ref}
-                  className="bg-t-default block h-[0.094rem] w-full origin-center will-change-transform" // Dùng màu text chính
+                  className="bg-t-default block h-[0.094rem] w-full origin-center will-change-transform"
                 />
               </button>
             </DrawerTrigger>

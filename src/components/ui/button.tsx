@@ -9,18 +9,21 @@ interface ButtonProps
   showArrow?: boolean
 }
 
-const buttonVariants = cva('font-general-sans flex items-center justify-center uppercase', {
-  variants: {
-    variant: {
-      default:
-        'bg-bg-primary text-t-inverse h-[3.125rem] p-[0.25rem_1.5rem] text-[0.875rem] font-medium',
-      text: 'text-t-default h-[1.5rem] gap-[0.5rem] p-0 text-[1rem] font-semibold',
+const buttonVariants = cva(
+  'font-general-sans flex items-center justify-center uppercase transition-all active:scale-95 disabled:pointer-events-none disabled:opacity-50',
+  {
+    variants: {
+      variant: {
+        default:
+          'bg-bg-primary text-t-inverse t-small hover:bg-bg-primary/90 h-[2.75rem] px-4 font-medium md:h-[3.125rem] md:px-6',
+        text: 'text-t-default t-default h-fit gap-[0.5rem] p-0 font-semibold hover:opacity-60',
+      },
+    },
+    defaultVariants: {
+      variant: 'default',
     },
   },
-  defaultVariants: {
-    variant: 'default',
-  },
-})
+)
 
 const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   ({ className, variant, direction = 'right', showArrow, children, ...props }, ref) => {

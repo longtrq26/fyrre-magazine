@@ -167,62 +167,77 @@
   .t-xsmall {
     @apply font-general-sans text-[0.75rem];
   }
+
   .t-small {
-    @apply font-general-sans text-[0.875rem] leading-[160%];
+    @apply font-general-sans text-[0.813rem] leading-[160%] md:text-[0.875rem];
   }
+
   .t-small-600 {
-    @apply font-general-sans text-[0.875rem] leading-[160%] font-semibold;
+    @apply font-general-sans text-[0.813rem] leading-[160%] font-semibold md:text-[0.875rem];
   }
+
   .t-default {
-    @apply font-general-sans text-[1rem] leading-[180%];
+    @apply font-general-sans text-[0.938rem] leading-[180%] md:text-[1rem];
   }
+
   .t-default-600 {
-    @apply font-general-sans text-[1rem] leading-[180%] font-semibold;
+    @apply font-general-sans text-[0.938rem] leading-[180%] font-semibold md:text-[1rem];
   }
+
   .t-medium {
-    @apply font-general-sans text-[1.25rem] leading-[180%];
+    @apply font-general-sans text-[1.125rem] leading-[180%] md:text-[1.188rem] lg:text-[1.25rem];
   }
+
   .t-medium-500 {
-    @apply font-general-sans text-[1.25rem] leading-[180%] font-medium;
+    @apply font-general-sans text-[1.125rem] leading-[180%] font-medium md:text-[1.188rem] lg:text-[1.25rem];
   }
+
   .t-large-500 {
-    @apply font-general-sans text-[1.375rem] leading-[180%] font-medium;
+    @apply font-general-sans text-[1.25rem] leading-[180%] font-medium md:text-[1.313rem] lg:text-[1.375rem];
   }
 
   /* heading */
   .h-6 {
-    @apply font-general-sans text-[1rem] font-semibold;
+    @apply font-general-sans text-[0.938rem] font-semibold md:text-[1rem];
   }
+
   .h-5 {
-    @apply font-general-sans text-[1.25rem] font-semibold;
+    @apply font-general-sans text-[1.125rem] font-semibold md:text-[1.188rem] lg:text-[1.25rem];
   }
+
   .h-4 {
-    @apply font-general-sans text-[1.5rem] leading-[120%] font-semibold;
+    @apply font-general-sans text-[1.375rem] leading-[120%] font-semibold md:text-[1.438rem] lg:text-[1.5rem];
   }
+
   .h-3 {
-    @apply font-general-sans text-[2rem] leading-[120%] font-semibold;
+    @apply font-general-sans text-[1.75rem] leading-[120%] font-semibold md:text-[1.875rem] lg:text-[2rem];
   }
+
   .h-2 {
-    @apply font-general-sans text-[3rem] leading-[120%] font-semibold;
+    @apply font-general-sans text-[2.25rem] leading-[120%] font-semibold md:text-[2.625rem] lg:text-[3rem];
   }
+
   .h-1 {
-    @apply font-general-sans text-[4rem] leading-[120%] font-semibold;
+    @apply font-general-sans text-[2.75rem] leading-[120%] font-semibold md:text-[3.375rem] lg:text-[4rem];
   }
 
   /* hero / special headings */
   .h-small {
-    @apply font-general-sans text-[4.5rem] leading-[110%] font-semibold;
+    @apply font-general-sans text-[3rem] leading-[110%] font-semibold md:text-[3.75rem] lg:text-[4.5rem];
   }
+
   .h-medium {
-    @apply font-general-sans text-[2.5rem] leading-[110%] font-semibold lg:text-[5rem];
+    @apply font-general-sans text-[2.5rem] leading-[110%] font-semibold md:text-[3.75rem] lg:text-[5rem];
   }
+
   .h-large {
-    @apply font-general-sans text-[6.5rem] leading-[110%] font-semibold;
+    @apply font-general-sans text-[3.5rem] leading-[110%] font-semibold md:text-[5rem] lg:text-[6.5rem];
   }
 
   .h-3-uppercase {
     @apply leading-[110%] uppercase;
   }
+
   .h-large-uppercase {
     @apply uppercase;
   }
