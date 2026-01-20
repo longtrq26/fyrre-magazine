@@ -1,3 +1,4 @@
+import { generateVerifyEmailHtml } from '@/utilities/generateEmailTemplate'
 import type { CollectionConfig } from 'payload'
 import { isAdmin, isAdminFieldLevel, isAdminOrSelf } from '../../access'
 import { ROLE_OPTIONS, ROLES } from '../../constants/roles'
@@ -5,10 +6,19 @@ import { ROLE_OPTIONS, ROLES } from '../../constants/roles'
 export const Users: CollectionConfig = {
   slug: 'users',
   auth: {
-    tokenExpiration: 3600, // 1 hours
-    verify: true,
+    tokenExpiration: 3600, // 1 hour
+    verify: {
+      generateEmailHTML: ({ token, user }) => {
+        const url = `${process.env.NEXT_PUBLIC_SERVER_URL}/auth/verify-email?token=${token}`
+        return generateVerifyEmailHtml(url, user.email)
+      },
+    },
     maxLoginAttempts: 5,
     lockTime: 600 * 1000, // 10 minutes
+    cookies: {
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'Lax',
+    },
   },
   admin: {
     useAsTitle: 'email',
