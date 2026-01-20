@@ -10,19 +10,16 @@ const Footer = () => {
       {/* marquee */}
       <Marquee className="w-full py-[1rem] [--duration:30s] [--gap:1.5rem] md:py-[1.125rem] lg:py-[1.25rem]">
         {Array.from({ length: 10 }).map((_, index) => (
-          <span
-            key={index}
-            className="font-general-sans text-t-inverse text-[1.25rem] font-semibold uppercase md:text-[1.3rem] lg:text-[1.375rem]"
-          >
+          <span key={index} className="text-t-inverse heading-4 uppercase">
             Newsletter+++
           </span>
         ))}
       </Marquee>
 
-      <div className="flex w-full flex-col px-[1.5rem] pb-[1.5rem] md:px-[2rem] md:pb-[2rem] lg:px-[2.5rem] lg:pb-[3rem]">
+      <div className="flex w-full flex-col px-[1rem] pb-[1.5rem] md:px-[2rem] md:pb-[2rem] lg:px-[2.5rem] lg:pb-[3rem]">
         {/* newsletter */}
         <section className="flex w-full flex-col items-center justify-between gap-[2rem] py-[4rem] md:flex-row md:py-[6rem] lg:py-[8rem]">
-          <p className="h-medium text-t-inverse flex-1 uppercase md:text-[2.5rem] lg:text-[3rem]">
+          <p className="heading-medium text-t-inverse flex-1 uppercase md:text-[2.5rem] lg:text-[3rem]">
             Design News to your inbox
           </p>
 
@@ -64,7 +61,7 @@ const Footer = () => {
                       <Link
                         key={item.href}
                         href={item.href}
-                        className="text-t-inverse py-[0.5rem] transition-opacity hover:opacity-60"
+                        className="text-t-inverse py-[0.25rem] transition-opacity hover:opacity-60 lg:py-[0.5rem]"
                       >
                         {item.label}
                       </Link>

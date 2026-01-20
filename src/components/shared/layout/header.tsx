@@ -54,7 +54,7 @@ const Header = () => {
   )
 
   return (
-    <header className="bg-bg-default fixed top-0 left-0 z-50 w-full px-[1.5rem] pt-[1.25rem] md:px-[2rem] md:pt-[2rem] lg:static lg:px-[2.5rem] lg:pt-[3rem]">
+    <header className="bg-bg-default fixed top-0 left-0 z-50 w-full px-[1rem] pt-[1.25rem] md:px-[2rem] md:pt-[2rem] lg:static lg:px-[2.5rem] lg:pt-[3rem]">
       <div className="border-border-default flex w-full items-center justify-between border-b pb-[1rem]">
         {/* logo */}
         <Link
@@ -125,7 +125,7 @@ const Header = () => {
                   <Link
                     key={item.href}
                     href={item.href}
-                    className="t-small border-border-default flex items-center justify-between border-b pb-[1rem] font-medium last:border-none last:pb-0"
+                    className="border-border-default flex items-center justify-between border-b pb-[1rem] font-medium last:border-none last:pb-0"
                     onClick={() => setIsOpen(false)}
                   >
                     {item.label} <ICArrow className="text-icon-default size-[0.875rem]" />

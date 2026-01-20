@@ -6,7 +6,7 @@ const RootLayout = ({ children }: { children: ReactNode }) => {
   return (
     <div className="flex min-h-screen w-full flex-col overflow-hidden">
       <Header />
-      <div className="t-default bg-bg-default text-t-default flex-1">{children}</div>
+      <main className="t-default bg-bg-default text-t-default flex-1">{children}</main>
       <Footer />
     </div>
   )
