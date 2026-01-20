@@ -25,6 +25,7 @@ export const Tags: CollectionConfig = {
       type: 'text',
       required: true,
       unique: true,
+      index: true,
       hooks: {
         beforeValidate: [formatSlug('name')],
       },

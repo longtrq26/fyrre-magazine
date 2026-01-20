@@ -1,6 +1,6 @@
 import { CollectionConfig, Where } from 'payload'
+import { isAdminOrOwner, isAdminOrWriter } from '../../access'
 import { ROLES } from '../../constants/roles'
-import { isAdminOrWriter, isAdminOrOwner } from '../../access'
 import { seoFields } from '../../fields/seo'
 import { formatSlug } from '../../utilities/formatSlug'
 
@@ -54,6 +54,7 @@ export const Posts: CollectionConfig = {
       type: 'text',
       required: true,
       unique: true,
+      index: true,
       admin: {
         position: 'sidebar',
       },
@@ -102,6 +103,7 @@ export const Posts: CollectionConfig = {
       type: 'relationship',
       relationTo: 'users',
       required: true,
+      index: true,
       defaultValue: ({ user }) => user?.id,
     },
     {
@@ -121,6 +123,7 @@ export const Posts: CollectionConfig = {
       type: 'select',
       required: true,
       defaultValue: 'draft',
+      index: true,
       options: [
         { label: 'Draft', value: 'draft' },
         { label: 'In Review', value: 'review' },
@@ -133,6 +136,7 @@ export const Posts: CollectionConfig = {
     {
       name: 'publishedAt',
       type: 'date',
+      index: true,
       admin: {
         position: 'sidebar',
         condition: (data) => data.status === 'published',

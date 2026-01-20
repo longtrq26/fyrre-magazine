@@ -19,6 +19,7 @@ export const Subscribers: CollectionConfig = {
       type: 'email',
       required: true,
       unique: true,
+      index: true,
     },
     {
       name: 'language',
@@ -33,6 +34,7 @@ export const Subscribers: CollectionConfig = {
       name: 'status',
       type: 'select',
       defaultValue: 'active',
+      index: true,
       options: [
         { label: 'Active', value: 'active' },
         { label: 'Unsubscribed', value: 'unsubscribed' },
@@ -41,6 +43,7 @@ export const Subscribers: CollectionConfig = {
     {
       name: 'subscribedAt',
       type: 'date',
+      index: true,
       admin: {
         readOnly: true,
       },

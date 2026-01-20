@@ -4,7 +4,10 @@ import { ROLE_OPTIONS, ROLES } from '../../constants/roles'
 
 export const Users: CollectionConfig = {
   slug: 'users',
-  auth: true,
+  auth: {
+    maxLoginAttempts: 5,
+    lockTime: 600000, // 10 minutes
+  },
   admin: {
     useAsTitle: 'email',
     defaultColumns: ['name', 'email', 'role'],
