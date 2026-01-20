@@ -16,7 +16,7 @@ interface SocialLink {
   href: string
 }
 
-export const NAV_LINKS: NavLink[] = [
+export const HEADER_LINKS: NavLink[] = [
   { label: 'Magazine', href: '/magazine' },
   { label: 'Authors', href: '/authors' },
   { label: 'Podcast', href: '/podcast' },
@@ -32,4 +32,18 @@ export const SOCIAL_LINKS: SocialLink[] = [
   { id: 'tw', label: 'Twitter', Icon: ICTwitter, href: 'https://twitter.com/...' },
   { id: 'yt', label: 'Youtube', Icon: ICYoutube, href: 'https://youtube.com/...' },
   { id: 'rss', label: 'RSS', Icon: ICRss, href: '/rss' },
+] as const
+
+export const FOOTER_LINKS: NavLink[] = [
+  { label: 'Art', href: '/art' },
+  { label: 'Design', href: '/design' },
+  { label: 'Architecture', href: '/architecture' },
+
+  { label: 'Magazine', href: '/magazine' },
+  { label: 'Podcast', href: '/podcast' },
+  { label: 'Authors', href: '/authors' },
+
+  { label: 'Styleguide', href: '/styleguide' },
+  { label: 'Licensing', href: '/licensing' },
+  { label: 'Changelog', href: '/changelog' },
 ] as const

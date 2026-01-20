@@ -4,9 +4,9 @@ import { ReactNode } from 'react'
 
 const RootLayout = ({ children }: { children: ReactNode }) => {
   return (
-    <div className="w-full overflow-hidden p-[1.25rem_1.5rem] md:p-[3rem_2.5rem]">
+    <div className="flex min-h-screen w-full flex-col overflow-hidden">
       <Header />
-      <div className="t-default bg-bg-default text-t-default">{children}</div>
+      <div className="t-default bg-bg-default text-t-default flex-1">{children}</div>
       <Footer />
     </div>
   )
