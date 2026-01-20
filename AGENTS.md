@@ -759,10 +759,10 @@ export function MyComponent() {
 ```scss
 // Use Payload's CSS variables
 .my-component {
-  background-color: var(--theme-elevation-500);
-  color: var(--theme-text);
-  padding: var(--base);
   border-radius: var(--border-radius-m);
+  background-color: var(--theme-elevation-500);
+  padding: var(--base);
+  color: var(--theme-text);
 }
 
 // Import Payload's SCSS library
